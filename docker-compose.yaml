@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres
+    container_name: postgres-surveys
+    volumes:
+      - ../data12:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: root
+      POSTGRES_DB: root
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis
+    container_name: redis-surveys
+    ports:
+      - "6379:6379"
