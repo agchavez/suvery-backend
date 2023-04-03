@@ -27,31 +27,10 @@ class UserViewSet(mixins.CreateModelMixin,
                   mixins.DestroyModelMixin,
                   mixins.ListModelMixin,
                   viewsets.GenericViewSet):
-    queryset = User.objects.all()
+    queryset = UserModel.objects.all()
     serializer_class = UserSerializer
     filter_backends = (SearchFilter, OrderingFilter)
     search_fields = ('username', 'email', 'first_name', 'last_name')
-
-
-# ViewSets by Group
-class GroupViewSet(mixins.RetrieveModelMixin,
-                   mixins.UpdateModelMixin,
-                   mixins.ListModelMixin,
-                   viewsets.GenericViewSet):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-
-
-# ViewSets by Permission
-class PermissionViewSet(mixins.RetrieveModelMixin,
-                        mixins.UpdateModelMixin,
-                        mixins.ListModelMixin,
-                        viewsets.GenericViewSet):
-    queryset = Permission.objects.all()
-    serializer_class = PermissionSerializer
-    filter_backends = (SearchFilter, OrderingFilter, DjangoFilterBackend)
-    search_fields = ('name', 'codename')
-    filter_fields = ('content_type',)
 
 
 # Filter by log

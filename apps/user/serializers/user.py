@@ -2,6 +2,7 @@
 import json
 
 from rest_framework import serializers
+from django.contrib.auth.hashers import make_password
 
 # Models
 from apps.user.models import UserModel
@@ -16,27 +17,15 @@ from django.contrib.admin.models import LogEntry
 # Serializers (User)
 class UserDJSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = UserModel
         fields = '__all__'
 
 
 # Serializers (UserModel)
 class UserSerializer(serializers.ModelSerializer):
-    list_permissions = serializers.SerializerMethodField()
-    list_groups = serializers.SerializerMethodField()
-
-    @staticmethod
-    def get_list_permissions(obj):
-        return obj.get_all_permissions()
-
-    @staticmethod
-    def get_list_groups(obj):
-        return obj.groups.values_list('name', flat=True)
-
     class Meta:
-        model = User
+        model = UserModel
         fields = '__all__'
-
 
 # Serializers (ContentType)
 class ContentTypeSerializer(serializers.ModelSerializer):
