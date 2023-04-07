@@ -1,9 +1,8 @@
-
 from pathlib import Path
 import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -16,7 +15,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 LOCAL_APPS = [
     'apps.user',
@@ -24,32 +22,31 @@ LOCAL_APPS = [
 ]
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'channels',
-    'drf_api_logger',
-    'django_filters',
-] + LOCAL_APPS
+                     'django.contrib.admin',
+                     'django.contrib.auth',
+                     'django.contrib.contenttypes',
+                     'django.contrib.sessions',
+                     'django.contrib.messages',
+                     'django.contrib.staticfiles',
+                     'rest_framework',
+                     'channels',
+                     'drf_api_logger',
+                     'django_filters',
+                 ] + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware',
 ]
-
 from drf_api_logger.middleware.api_logger_middleware import APILoggerMiddleware
 
 DRF_API_LOGGER_DATABASE = True
+CSRF_COOKIE_SECURE = False
 
 
 ROOT_URLCONF = 'config.urls'
@@ -76,7 +73,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 ASGI_APPLICATION = 'config.asgi.application'
 
-
 # Database
 DATABASES = {
     'default': {
@@ -89,7 +85,6 @@ DATABASES = {
 
     }
 }
-
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -114,25 +109,26 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'utils.custom_exception_handler',
 }
 
-# Internationalization
-
-LANGUAGE_CODE = 'es-mx'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_TZ = True
+AUTH_USER_MODEL = 'user.UserModel'
 
 # Channels settings
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.redis.RedisChannelLayer",
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(os.environ.get('REDIS_HOST'), os.environ.get('REDIS_PORT'))],
+            "hosts": [("localhost", 6379)],
         },
     },
 }
+
+# Configuraciones de localizacion
+LANGUAGE_CODE = 'es-HN'
+
+TIME_ZONE = 'America/Tegucigalpa'
+
+USE_I18N = True
+
+USE_TZ = True
 
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -141,5 +137,3 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-

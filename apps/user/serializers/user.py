@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import make_password
 from apps.user.models import UserModel
 
 # Grupos y permisos
-from django.contrib.auth.models import Group, Permission, ContentType, User, UserManager
+from django.contrib.auth.models import Group, Permission, ContentType, UserManager
 
 # Log de administrador
 from django.contrib.admin.models import LogEntry
@@ -23,9 +23,22 @@ class UserDJSerializer(serializers.ModelSerializer):
 
 # Serializers (UserModel)
 class UserSerializer(serializers.ModelSerializer):
+    list_groups = serializers.SerializerMethodField()
+    list_permissions = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_list_groups(obj):
+        return obj.groups.values_list('name', flat=True)
+
+    @staticmethod
+    def get_list_permissions(obj):
+        return obj.get_all_permissions()
+
     class Meta:
         model = UserModel
         fields = '__all__'
+
+
 
 # Serializers (ContentType)
 class ContentTypeSerializer(serializers.ModelSerializer):

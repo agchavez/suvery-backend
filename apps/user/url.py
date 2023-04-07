@@ -6,6 +6,6 @@ from apps.user.views import UserViewSet, LogEntryViewSet
 
 # Routers
 router = routers.DefaultRouter()
-router.register(r'auth/users', UserViewSet)
+router.register(r'users', UserViewSet)
 router.register(r'log', LogEntryViewSet)
 
