@@ -3,10 +3,10 @@
 from rest_framework import mixins, viewsets
 
 # models
-from apps.room.models import Room
+from apps.room.models import Room, RoomQuestion
 
 # serializers
-from apps.room.serializers.room import RoomSerializer
+from apps.room.serializers.room import RoomSerializer, QuestionRoomSerializer
 
 # log
 from django.contrib.admin.models import LogEntry
@@ -36,3 +36,13 @@ class RoomViewSet(mixins.ListModelMixin,
         log.save()
 
         return serializer
+
+class QuestionRoomViewSet(mixins.ListModelMixin,
+                          mixins.CreateModelMixin,
+                          mixins.RetrieveModelMixin,
+                          mixins.UpdateModelMixin,
+                          mixins.DestroyModelMixin,
+                          viewsets.GenericViewSet):
+    queryset = RoomQuestion.objects.all()
+    serializer_class = QuestionRoomSerializer
+

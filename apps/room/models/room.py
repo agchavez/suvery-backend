@@ -52,10 +52,10 @@ class Room(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return self.key
 
     def __unicode__(self):
-        return self.name
+        return self.key
 
     def save(self, *args, **kwargs):
         if not self.key:
@@ -80,3 +80,32 @@ class Room(models.Model):
         self.status = True
         self.save()
 
+
+# Model by Question in Room
+class RoomQuestion(models.Model):
+    class Meta:
+        verbose_name = 'Room Question'
+        verbose_name_plural = 'Room Questions'
+        ordering = ['created_at']
+        db_table = 'app_room_question'
+
+    # id de la pregunta
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    # pregunta
+    question = models.TextField()
+
+    # fecha de creacion de la pregunta
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    # sala
+    room = models.ForeignKey(
+        Room,
+        on_delete=models.CASCADE,
+        related_name='room_question',
+    )
+
+    def __str__(self):
+        return self.question

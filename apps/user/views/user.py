@@ -1,9 +1,17 @@
+import jwt
+from django.utils.decorators import method_decorator
 # Rest_framework
 from rest_framework import mixins, viewsets
+from rest_framework.response import Response
+from rest_framework import status
 
+from apps.auth.utils.jwt_permission import jwt_permission_required
 # Models
 from apps.user.models import UserModel
-from django.contrib.auth.models import Group, Permission, User
+from django.contrib.auth.models import Group, Permission
+
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 # Log de administrador
 from django.contrib.admin.models import LogEntry
@@ -13,6 +21,8 @@ from apps.user.serializers import (UserSerializer,
                                    GroupSerializer,
                                    PermissionSerializer,
                                    LogEntrySerializer)
+
+from config.settings import SECRET_KEY
 
 # filters
 from django_filters.rest_framework import DjangoFilterBackend
@@ -27,31 +37,12 @@ class UserViewSet(mixins.CreateModelMixin,
                   mixins.DestroyModelMixin,
                   mixins.ListModelMixin,
                   viewsets.GenericViewSet):
-    queryset = User.objects.all()
+    queryset = UserModel.objects.all()
     serializer_class = UserSerializer
     filter_backends = (SearchFilter, OrderingFilter)
     search_fields = ('username', 'email', 'first_name', 'last_name')
 
 
-# ViewSets by Group
-class GroupViewSet(mixins.RetrieveModelMixin,
-                   mixins.UpdateModelMixin,
-                   mixins.ListModelMixin,
-                   viewsets.GenericViewSet):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-
-
-# ViewSets by Permission
-class PermissionViewSet(mixins.RetrieveModelMixin,
-                        mixins.UpdateModelMixin,
-                        mixins.ListModelMixin,
-                        viewsets.GenericViewSet):
-    queryset = Permission.objects.all()
-    serializer_class = PermissionSerializer
-    filter_backends = (SearchFilter, OrderingFilter, DjangoFilterBackend)
-    search_fields = ('name', 'codename')
-    filter_fields = ('content_type',)
 
 
 # Filter by log

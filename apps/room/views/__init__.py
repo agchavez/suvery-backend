@@ -1,2 +1,2 @@
-from .room import RoomViewSet
-from .user_room import RoomUserViewSet
+from .room import RoomViewSet, QuestionRoomViewSet
+from .user_room import RoomUserViewSet, RoomUserVoteViewSet
