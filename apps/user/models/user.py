@@ -2,13 +2,19 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
-
+import uuid
 class UserModel(AbstractUser):
     class Meta:
         verbose_name = "Usuario"
         verbose_name_plural = "Usuarios"
         ordering = ['-created_at']
         db_table = "auth_user"
+
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
 
     first_name = models.CharField(
         'first name',
