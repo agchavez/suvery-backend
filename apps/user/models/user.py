@@ -1,8 +1,19 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
 import uuid
+
+from rest_framework.exceptions import ValidationError
+
+
+class CustomGroup(Group):
+    description = models.TextField(_('description'), blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('custom group')
+        verbose_name_plural = _('custom groups')
+
 class UserModel(AbstractUser):
     class Meta:
         verbose_name = "Usuario"
@@ -46,6 +57,19 @@ class UserModel(AbstractUser):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
+    group_access = models.ManyToManyField(
+        CustomGroup,
+        related_name='user_access_set',  # Cambia el related_name aquí
+        verbose_name=_('groups_access'),
+        blank=True,
+        help_text=_(
+            'The groups this user belongs to. A user will get all permissions '
+            'granted to each of their groups.'
+        ),
+        error_messages={
+            'blank': 'Please select at least one group.',
+        },
+    )
     def __str__(self):
         return self.email
 

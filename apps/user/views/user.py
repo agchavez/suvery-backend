@@ -2,6 +2,8 @@ import jwt
 from django.utils.decorators import method_decorator
 # Rest_framework
 from rest_framework import mixins, viewsets
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -62,6 +64,7 @@ class LogEntryFilter(django_filters.FilterSet):
 
 
 # ViewSets by LogEntry
+@permission_classes([IsAdminUser])
 class LogEntryViewSet(mixins.RetrieveModelMixin,
                       mixins.UpdateModelMixin,
                       mixins.ListModelMixin,

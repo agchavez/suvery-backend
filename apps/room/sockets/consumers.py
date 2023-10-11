@@ -193,6 +193,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
                 await self.delete_question(message)
             elif message_type == 'vote':
                 await self.create_or_update_vote(message)
+
             else:
                 await self.send(text_data=json.dumps({
                     'error': 'Invalid message type'

@@ -35,7 +35,8 @@ class JwtAuthMiddleware:
                         "code": 1000,
                     })
                     return
-        return await self.inner(scope, receive, send)
+        result = await self.inner(scope, receive, send)
+        return result
 
     @database_sync_to_async
     def get_token(self, user_id, user_email):
