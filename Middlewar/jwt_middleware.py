@@ -17,8 +17,8 @@ class JwtAuthMiddleware:
     async def __call__(self, scope, receive, send):
         close_old_connections()
         headers = dict(scope['headers'])
-        if b'authorization' in headers:
-            token_name, token_key = headers[b'authorization'].decode().split()
+        if b'accept-charset' in headers:
+            token_name, token_key = headers[b'accept-charset'].decode().split()
             if token_name == 'Bearer':
                 try:
                     decoded_data = JWTManager.decode_token(token_key)

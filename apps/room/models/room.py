@@ -2,11 +2,12 @@
 from django.db import models
 import uuid
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from rest_framework.exceptions import ValidationError
 
 # creation
 from apps.user.models.user import UserModel
-
 
 # Model by Room
 class Room(models.Model):
@@ -109,3 +110,25 @@ class RoomQuestion(models.Model):
 
     def __str__(self):
         return self.question
+
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
+# Obtén el objeto ChannelLayer
+
+@receiver(post_save, sender=Room)
+def mi_modelo_post_save(sender, instance, **kwargs):
+    # Código que se ejecutará después de guardar un objeto MiModelo
+    print('post_save', instance)
+    # Llamada a la función para enviar un mensaje a la sala
+    group_name = "room_%s" % instance.key
+    message = 'Mensaje que deseas enviar a la sala'
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        group_name,
+        {
+            "type": "chat_message",
+            "message": "Este es mi mensaje de chat"
+        }
+    )
+    # Define la función para enviar un mensaje a la sala

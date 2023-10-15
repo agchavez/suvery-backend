@@ -6,6 +6,7 @@ from channels.auth import AuthMiddlewareStack
 
 from Middlewar.jwt_middleware import JwtAuthMiddlewareStack
 from apps.room.sockets import websocket_urlpatterns
+from channels.layers import get_channel_layer
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
@@ -17,3 +18,6 @@ application = ProtocolTypeRouter({
         )
     ),
 })
+
+# Obtén el objeto ChannelLayer
+channel_layer = get_channel_layer()

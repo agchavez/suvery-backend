@@ -193,6 +193,14 @@ class RoomConsumer(AsyncWebsocketConsumer):
                 await self.delete_question(message)
             elif message_type == 'vote':
                 await self.create_or_update_vote(message)
+            elif message_type == 'chat_message':
+                await self.channel_layer.group_send(
+                    self.room_group_name,
+                    {
+                        'type': 'chat_message',
+                        'message': message['message']
+                    }
+                )
 
             else:
                 await self.send(text_data=json.dumps({
@@ -241,6 +249,15 @@ class RoomConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=json.dumps({
                 'error': 'Invalid message format'
             }))
+
+    async def chat_message(self, event):
+        message = event['message']
+
+        # Enviar el mensaje al cliente que está conectado al WebSocket
+        await self.send(text_data=json.dumps({
+            'type': 'chat_message',
+            'message': message
+        }))
 
     async def update_question(self, message):
         try:

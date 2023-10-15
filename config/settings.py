@@ -13,7 +13,11 @@ SECRET_KEY = 'django-insecure-w9cz$g4uda4-5j5c497-=t+4ren(r83fncipt*j3z#&q21==8u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:8000'
+]
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 LOCAL_APPS = [
@@ -32,6 +36,7 @@ INSTALLED_APPS = [
                      'channels',
                      'drf_api_logger',
                      'django_filters',
+                     'corsheaders'
                  ] + LOCAL_APPS
 
 MIDDLEWARE = [
@@ -42,6 +47,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 from drf_api_logger.middleware.api_logger_middleware import APILoggerMiddleware
 

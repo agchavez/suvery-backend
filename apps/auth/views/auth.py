@@ -26,7 +26,7 @@ class AuthView(viewsets.GenericViewSet):
         if user is not None:
             update_last_login(None, user)
             # el token durará 24 horas
-            token = JWTManager.generate_token(user_email=user.email, user_id=user.id, expiration_time_hours=24)
+            token = JWTManager.generate_token(user_email=user.email, user_id=str(user.id), expiration_time_hours=24)
             return Response({
                 'user': UserSerializer(user).data,
                 'token': token

@@ -25,15 +25,6 @@ class RoomViewSet(mixins.ListModelMixin,
     def perform_create(self, serializer):
         serializer =  serializer.save()
         print('perform_create', serializer)
-        log = LogEntry.objects.create(
-            user_id=1,
-            content_type_id=9,
-            object_id=serializer.id,
-            object_repr='Room',
-            action_flag=1,
-            change_message='Ha creado la sala %s' % serializer.name
-        )
-        log.save()
 
         return serializer
 
