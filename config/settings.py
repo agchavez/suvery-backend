@@ -34,7 +34,6 @@ INSTALLED_APPS = [
                      'django.contrib.staticfiles',
                      'rest_framework',
                      'channels',
-                     'drf_api_logger',
                      'django_filters',
                      'corsheaders'
                  ] + LOCAL_APPS
@@ -46,13 +45,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
 from drf_api_logger.middleware.api_logger_middleware import APILoggerMiddleware
 
-DRF_API_LOGGER_DATABASE = True
+
 CSRF_COOKIE_SECURE = False
 
 
